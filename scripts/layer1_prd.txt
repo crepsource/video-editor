@@ -1,0 +1,93 @@
+# Layer 1: Enhanced Frame Analysis - Product Requirements Document
+
+## Project Overview
+Implement enhanced frame analysis for AI-powered video cutting tool that provides advanced visual understanding of every moment in the video content.
+
+## Core Requirements
+
+### Technical Capabilities
+1. Implement detailed frame description generation using GPT-4 Vision API
+2. Build composition scoring system (rule of thirds, leading lines, balance)
+3. Create visual quality assessment module (lighting, clarity, engagement)
+4. Develop scene type classification system (establishing, action, close-up, transition)
+5. Implement subject and environment identification
+
+### Data Structure Implementation
+1. Design and implement frame analysis data schema
+2. Create composition analysis JSON structure with scoring metrics
+3. Build technical quality assessment with sharpness, exposure, and color saturation metrics
+4. Implement narrative potential scoring system
+5. Create engagement factor identification system
+
+### Database Implementation
+1. Set up PostgreSQL database with Supabase integration
+2. Create frames_v2 table with enhanced analysis columns
+3. Implement JSONB storage for composition, quality, and visual elements
+4. Set up proper indexing for query performance
+5. Create data migration scripts if upgrading from v1
+
+### Frame Extraction Pipeline
+1. Build video file input handler supporting multiple formats
+2. Implement efficient frame extraction at optimal intervals
+3. Create frame buffering system for batch processing
+4. Develop frame quality pre-filtering to skip blurry/dark frames
+5. Implement temporary storage management for extracted frames
+
+### AI Integration Layer
+1. Set up OpenAI GPT-4 Vision API integration
+2. Create batch processing system for frame analysis
+3. Implement rate limiting and retry logic for API calls
+4. Build response parsing and validation system
+5. Create fallback mechanisms for API failures
+
+### Analysis Engine Components
+1. Composition scorer with rule of thirds detection
+2. Lighting quality analyzer (golden hour, harsh light, etc.)
+3. Shot type classifier using computer vision
+4. Visual element extractor and tagger
+5. Engagement score calculator based on multiple factors
+
+### Quality Metrics System
+1. Implement sharpness detection algorithm
+2. Build exposure analysis module
+3. Create color saturation measurement
+4. Develop overall technical quality scoring
+5. Implement quality threshold filtering
+
+### Output Generation
+1. Create JSON output formatter for frame analysis results
+2. Build timestamp-indexed data structure
+3. Implement analysis result aggregation
+4. Create human-readable description generator
+5. Build debugging and visualization tools
+
+### Testing Framework
+1. Create unit tests for each analysis component
+2. Build integration tests for full pipeline
+3. Implement performance benchmarking
+4. Create test dataset with diverse video types
+5. Build accuracy validation against manual annotations
+
+### Performance Optimization
+1. Implement parallel processing for frame analysis
+2. Create caching system for repeated analyses
+3. Optimize database queries with proper indexing
+4. Build memory management for large video processing
+5. Implement progress tracking and resumable processing
+
+## Technical Requirements
+- Node.js/TypeScript backend
+- PostgreSQL via Supabase
+- OpenAI GPT-4 Vision API
+- FFmpeg for video processing
+- Redis for caching
+- Process 15-20 frames per minute per video
+- Handle videos up to 10 minutes in length
+- Support MP4, MOV, AVI formats
+
+## Success Criteria
+- Frame extraction accuracy: 95%+
+- Description quality score: 8/10 average
+- Processing speed: <3 minutes for 5-minute video
+- API cost efficiency: <$0.50 per video
+- Database query performance: <100ms average

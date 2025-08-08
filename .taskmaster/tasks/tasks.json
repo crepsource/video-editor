@@ -1,0 +1,806 @@
+{
+  "master": {
+    "tasks": [
+      {
+        "id": 1,
+        "title": "Setup Project Repository and Core Dependencies",
+        "description": "Initialize Node.js/TypeScript project with essential dependencies for video processing and AI integration",
+        "details": "Create package.json with TypeScript, FFmpeg bindings, OpenAI SDK, Supabase client, Redis client, and development tools. Set up tsconfig.json with strict type checking. Install @types packages for TypeScript support. Configure ESLint and Prettier for code quality.",
+        "testStrategy": "Verify all dependencies install correctly, TypeScript compiles without errors, and basic imports work for all major libraries",
+        "priority": "high",
+        "dependencies": [],
+        "status": "pending",
+        "subtasks": []
+      },
+      {
+        "id": 2,
+        "title": "Design Database Schema and Setup Supabase",
+        "description": "Create PostgreSQL database schema with frames_v2 table and establish Supabase connection",
+        "details": "Design frames_v2 table with columns: id, video_id, timestamp, frame_path, description, composition_analysis (JSONB), quality_metrics (JSONB), visual_elements (JSONB), engagement_score, scene_type, created_at. Create proper indexes on video_id, timestamp, and engagement_score. Set up Supabase client configuration with environment variables.",
+        "testStrategy": "Test database connection, verify table creation, test JSONB column insertion/retrieval, and validate index performance with sample queries",
+        "priority": "high",
+        "dependencies": [
+          1
+        ],
+        "status": "pending",
+        "subtasks": []
+      },
+      {
+        "id": 3,
+        "title": "Implement Video File Input Handler",
+        "description": "Build system to accept and validate video files in MP4, MOV, AVI formats",
+        "details": "Create VideoInputHandler class using FFmpeg to validate file formats, extract metadata (duration, resolution, fps), and verify file integrity. Support file upload via filesystem path or buffer. Implement file size validation (max 10 minutes) and format conversion if needed.",
+        "testStrategy": "Test with various video formats, verify metadata extraction accuracy, test file validation rules, and ensure proper error handling for corrupted files",
+        "priority": "high",
+        "dependencies": [
+          1
+        ],
+        "status": "pending",
+        "subtasks": []
+      },
+      {
+        "id": 4,
+        "title": "Build Frame Extraction Pipeline",
+        "description": "Implement efficient frame extraction system with quality pre-filtering",
+        "details": "Use FFmpeg to extract frames at optimal intervals (every 2-3 seconds). Implement frame quality pre-filtering to skip blurry, dark, or low-quality frames using OpenCV or similar. Create frame buffering system for batch processing. Store extracted frames temporarily with cleanup mechanisms.",
+        "testStrategy": "Verify frame extraction timing accuracy, test quality filtering effectiveness, measure extraction performance, and validate temporary file cleanup",
+        "priority": "high",
+        "dependencies": [
+          3
+        ],
+        "status": "pending",
+        "subtasks": []
+      },
+      {
+        "id": 5,
+        "title": "Setup OpenAI GPT-4 Vision API Integration",
+        "description": "Establish connection to OpenAI API with rate limiting and error handling",
+        "details": "Configure OpenAI client with API key management. Implement rate limiting (respect API limits), retry logic with exponential backoff, and proper error handling for API failures. Create frame-to-base64 conversion for API submission. Set up cost tracking mechanisms.",
+        "testStrategy": "Test API connection, verify rate limiting works, test retry logic with simulated failures, and validate cost tracking accuracy",
+        "priority": "high",
+        "dependencies": [
+          1
+        ],
+        "status": "pending",
+        "subtasks": []
+      },
+      {
+        "id": 6,
+        "title": "Create Frame Analysis Data Schema",
+        "description": "Define TypeScript interfaces and JSON schemas for frame analysis results",
+        "details": "Create TypeScript interfaces for CompositionAnalysis (rule_of_thirds_score, leading_lines, visual_balance), QualityMetrics (sharpness, exposure, color_saturation), VisualElements (subjects, environment, objects), and EngagementFactors. Define JSON schemas for validation.",
+        "testStrategy": "Validate schema definitions against sample data, test TypeScript type checking, and verify JSON schema validation works correctly",
+        "priority": "medium",
+        "dependencies": [
+          2
+        ],
+        "status": "pending",
+        "subtasks": []
+      },
+      {
+        "id": 7,
+        "title": "Implement Composition Scoring System",
+        "description": "Build algorithm to analyze frame composition using rule of thirds and visual balance",
+        "details": "Create CompositionAnalyzer class that detects rule of thirds grid placement, identifies leading lines using edge detection, measures visual balance through weight distribution analysis. Generate numerical scores (0-100) for each metric and overall composition score.",
+        "testStrategy": "Test with frames of known good/poor composition, validate scoring consistency, and compare results against manual composition assessments",
+        "priority": "medium",
+        "dependencies": [
+          6
+        ],
+        "status": "pending",
+        "subtasks": []
+      },
+      {
+        "id": 8,
+        "title": "Build Technical Quality Assessment Module",
+        "description": "Implement algorithms for sharpness, exposure, and color saturation analysis",
+        "details": "Create QualityAnalyzer using image processing algorithms: Laplacian variance for sharpness detection, histogram analysis for exposure assessment, and HSV color space analysis for saturation measurement. Generate quality scores and identify technical issues (overexposed, underexposed, motion blur).",
+        "testStrategy": "Test with frames of varying technical quality, validate score accuracy against known quality standards, and verify edge case handling",
+        "priority": "medium",
+        "dependencies": [
+          6
+        ],
+        "status": "pending",
+        "subtasks": []
+      },
+      {
+        "id": 9,
+        "title": "Develop Scene Type Classification System",
+        "description": "Create classifier for scene types: establishing, action, close-up, transition",
+        "details": "Build SceneClassifier using computer vision techniques to identify shot types based on subject size, motion detection, depth of field analysis, and visual complexity. Use machine learning or rule-based approach to classify into predefined scene types.",
+        "testStrategy": "Test classification accuracy with manually labeled dataset, measure performance across different video genres, and validate consistency",
+        "priority": "medium",
+        "dependencies": [
+          6
+        ],
+        "status": "pending",
+        "subtasks": []
+      },
+      {
+        "id": 10,
+        "title": "Create AI-Powered Frame Description Generator",
+        "description": "Implement GPT-4 Vision integration for detailed frame analysis and description",
+        "details": "Create FrameDescriptionGenerator that sends frames to GPT-4 Vision API with structured prompts requesting composition analysis, subject identification, environment description, and narrative potential assessment. Parse and validate API responses into structured data format.",
+        "testStrategy": "Test description quality and consistency, validate structured data parsing, measure API response times, and verify cost efficiency",
+        "priority": "high",
+        "dependencies": [
+          5,
+          6
+        ],
+        "status": "pending",
+        "subtasks": []
+      },
+      {
+        "id": 11,
+        "title": "Build Engagement Score Calculator",
+        "description": "Implement multi-factor engagement scoring based on visual elements and composition",
+        "details": "Create EngagementCalculator that combines composition scores, technical quality, scene type, visual complexity, and subject presence into weighted engagement score (0-100). Implement configurable weighting system for different content types.",
+        "testStrategy": "Test scoring algorithm with diverse frame types, validate score distribution, and compare against human engagement assessments",
+        "priority": "medium",
+        "dependencies": [
+          7,
+          8,
+          9
+        ],
+        "status": "pending",
+        "subtasks": []
+      },
+      {
+        "id": 12,
+        "title": "Implement Batch Processing System",
+        "description": "Create efficient pipeline for processing multiple frames with progress tracking",
+        "details": "Build BatchProcessor that orchestrates frame extraction, AI analysis, composition scoring, and database storage. Implement parallel processing with worker threads, progress tracking, resumable processing for large videos, and memory management to prevent OOM errors.",
+        "testStrategy": "Test batch processing performance, verify parallel processing efficiency, test resume functionality, and validate memory usage patterns",
+        "priority": "high",
+        "dependencies": [
+          4,
+          10
+        ],
+        "status": "pending",
+        "subtasks": []
+      },
+      {
+        "id": 13,
+        "title": "Setup Redis Caching Layer",
+        "description": "Implement caching system for repeated analyses and API responses",
+        "details": "Configure Redis client for caching frame analysis results, API responses, and intermediate processing results. Implement cache key strategies, TTL management, and cache invalidation logic. Create cache-aware wrapper functions for expensive operations.",
+        "testStrategy": "Test cache hit/miss scenarios, verify cache invalidation works correctly, measure performance improvement, and test Redis connection handling",
+        "priority": "medium",
+        "dependencies": [
+          1
+        ],
+        "status": "pending",
+        "subtasks": []
+      },
+      {
+        "id": 14,
+        "title": "Create Data Storage and Retrieval System",
+        "description": "Implement efficient database operations for frame analysis results",
+        "details": "Create DataStore class with methods for inserting frame analysis results, querying frames by video_id and timestamp ranges, aggregating analysis data, and optimizing database queries. Implement connection pooling and transaction management for bulk operations.",
+        "testStrategy": "Test database operations performance, verify data integrity, test query optimization with large datasets, and validate transaction handling",
+        "priority": "high",
+        "dependencies": [
+          2,
+          11
+        ],
+        "status": "pending",
+        "subtasks": []
+      },
+      {
+        "id": 15,
+        "title": "Build Testing Framework and Performance Benchmarks",
+        "description": "Create comprehensive test suite and performance monitoring system",
+        "details": "Implement unit tests for all analysis components, integration tests for full pipeline, performance benchmarks measuring processing speed and accuracy. Create test dataset with diverse video types, establish accuracy baselines against manual annotations, and implement continuous performance monitoring.",
+        "testStrategy": "Achieve 95%+ test coverage, validate benchmark results against requirements (3 minutes for 5-minute video), and establish automated testing pipeline",
+        "priority": "medium",
+        "dependencies": [
+          12,
+          14
+        ],
+        "status": "pending",
+        "subtasks": []
+      }
+    ],
+    "metadata": {
+      "created": "2025-08-08T07:37:56.249Z",
+      "updated": "2025-08-08T07:37:56.249Z",
+      "description": "Tasks for master context"
+    }
+  },
+  "layer-1": {
+    "tasks": [
+      {
+        "id": 1,
+        "title": "Setup Project Repository and Core Dependencies",
+        "description": "Initialize Node.js/TypeScript project with essential dependencies for video processing and AI integration",
+        "details": "Create package.json with TypeScript, FFmpeg bindings, OpenAI SDK, Supabase client, Redis client, and development tools. Set up tsconfig.json with strict type checking. Install @types packages for TypeScript support. Configure ESLint and Prettier for code quality.",
+        "testStrategy": "Verify all dependencies install correctly, TypeScript compiles without errors, and basic imports work for all major libraries",
+        "priority": "high",
+        "dependencies": [],
+        "status": "done",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Create package.json with project metadata and scripts",
+            "description": "Initialize Node.js package with project information, version, and npm scripts for development workflow",
+            "dependencies": [],
+            "details": "Create package.json with name 'video-editor', version '1.0.0', description for AI-powered video analysis. Add scripts for 'dev', 'build', 'start', 'test', 'lint', and 'type-check'. Set main entry point and specify Node.js engine version requirements.",
+            "status": "done",
+            "testStrategy": ""
+          },
+          {
+            "id": 2,
+            "title": "Configure TypeScript with strict settings",
+            "description": "Set up tsconfig.json with strict type checking and appropriate compiler options for the project",
+            "dependencies": [
+              "1.1"
+            ],
+            "details": "Create tsconfig.json with strict: true, target: ES2020, module: CommonJS, outDir: './dist', rootDir: './src', resolveJsonModule: true, esModuleInterop: true, forceConsistentCasingInFileNames: true, skipLibCheck: true. Include type definitions for Node.js.",
+            "status": "done",
+            "testStrategy": ""
+          },
+          {
+            "id": 3,
+            "title": "Setup development tooling (ESLint, Prettier, Jest)",
+            "description": "Configure code quality tools and testing framework with appropriate configurations",
+            "dependencies": [
+              "1.2"
+            ],
+            "details": "Install and configure ESLint with TypeScript support, Prettier for code formatting, and Jest for testing. Create .eslintrc.js with TypeScript rules, .prettierrc for formatting standards, and jest.config.js for test configuration. Add .eslintignore and .prettierignore files.",
+            "status": "done",
+            "testStrategy": ""
+          },
+          {
+            "id": 4,
+            "title": "Install core dependencies for video processing and AI",
+            "description": "Install essential production dependencies including FFmpeg bindings, OpenAI SDK, Supabase client, and Redis client",
+            "dependencies": [
+              "1.3"
+            ],
+            "details": "Install fluent-ffmpeg, @ffmpeg-installer/ffmpeg, openai, @supabase/supabase-js, redis, dotenv. Install TypeScript type definitions: @types/fluent-ffmpeg, @types/node. Verify all packages install correctly and are compatible versions.",
+            "status": "done",
+            "testStrategy": ""
+          },
+          {
+            "id": 5,
+            "title": "Configure environment variables and secrets management",
+            "description": "Set up environment configuration for API keys, database connections, and application settings",
+            "dependencies": [
+              "1.4"
+            ],
+            "details": "Create .env.example with placeholders for OPENAI_API_KEY, SUPABASE_URL, SUPABASE_ANON_KEY, REDIS_URL, NODE_ENV, LOG_LEVEL. Create .gitignore to exclude .env files. Set up dotenv loading in main application entry point. Document required environment variables in comments.",
+            "status": "done",
+            "testStrategy": ""
+          },
+          {
+            "id": 6,
+            "title": "Create initial project directory structure",
+            "description": "Establish organized folder structure for source code, tests, configuration, and output files",
+            "dependencies": [
+              "1.5"
+            ],
+            "details": "Create src/ directory with subdirectories: models/ (TypeScript interfaces), services/ (business logic), utils/ (helper functions), types/ (type definitions). Create test/ directory mirroring src structure. Add dist/ to .gitignore for compiled output. Create uploads/ and frames/ directories for file processing.",
+            "status": "done",
+            "testStrategy": ""
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "title": "Design Database Schema and Setup Supabase",
+        "description": "Create PostgreSQL database schema with frames_v2 table and establish local PostgreSQL connection using Docker",
+        "status": "done",
+        "dependencies": [
+          1
+        ],
+        "priority": "high",
+        "details": "Design frames_v2 table with columns: id, video_id, timestamp, frame_path, description, composition_analysis (JSONB), quality_metrics (JSONB), visual_elements (JSONB), engagement_score, scene_type, created_at. Create proper indexes on video_id, timestamp, and engagement_score. Set up Docker PostgreSQL container with pgAdmin for database management and node-postgres (pg) client for connections.",
+        "testStrategy": "Test database connection, verify table creation, test JSONB column insertion/retrieval, validate index performance with sample queries, and verify Docker container setup",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Design comprehensive database schema with JSONB structure",
+            "description": "Create detailed schema for frames_v2 table with optimized JSONB columns for composition analysis, quality metrics, and visual elements",
+            "status": "done",
+            "dependencies": [],
+            "details": "Design frames_v2 table structure with columns: id (UUID primary key), video_id (UUID foreign key), timestamp (decimal for precise timing), frame_path (text for file location), description (text for AI-generated content), composition_analysis (JSONB for rule of thirds, symmetry, focal points), quality_metrics (JSONB for sharpness, exposure, contrast scores), visual_elements (JSONB for objects, people, text detection), engagement_score (numeric 0-100), scene_type (enum: establishing, action, close-up, transition), created_at/updated_at timestamps. Define JSONB schema structure for consistent data validation.",
+            "testStrategy": ""
+          },
+          {
+            "id": 2,
+            "title": "Set up Docker PostgreSQL container with pgAdmin",
+            "description": "Configure Docker Compose setup with PostgreSQL database and pgAdmin for local development",
+            "status": "done",
+            "dependencies": [],
+            "details": "Create docker-compose.yml with PostgreSQL 15+ container, configure environment variables (POSTGRES_DB, POSTGRES_USER, POSTGRES_PASSWORD), set up persistent volume for data storage, add pgAdmin container for database management with proper networking between containers. Configure pgAdmin with default login credentials and server connection to PostgreSQL container. Set up health checks and restart policies.",
+            "testStrategy": ""
+          },
+          {
+            "id": 3,
+            "title": "Create database tables with proper constraints and relationships",
+            "description": "Execute SQL DDL statements to create frames_v2 table with foreign key relationships and data validation constraints",
+            "status": "done",
+            "dependencies": [
+              1
+            ],
+            "details": "Create frames_v2 table with proper PostgreSQL data types, NOT NULL constraints on required fields, CHECK constraints for engagement_score range (0-100), enum type for scene_type values, foreign key constraint to videos table (assuming exists), and proper CASCADE/RESTRICT rules. Add created_at default to NOW(), ensure UUID fields use gen_random_uuid() where appropriate.",
+            "testStrategy": ""
+          },
+          {
+            "id": 4,
+            "title": "Implement strategic database indexing for query performance",
+            "description": "Create optimized indexes on key columns including JSONB GIN indexes for complex queries",
+            "status": "done",
+            "dependencies": [
+              3
+            ],
+            "details": "Create B-tree indexes on frequently queried columns: video_id, timestamp, engagement_score, scene_type, created_at. Implement GIN indexes on JSONB columns (composition_analysis, quality_metrics, visual_elements) for efficient JSON path queries. Create composite indexes for common query patterns like (video_id, timestamp) and (video_id, engagement_score DESC). Analyze query patterns and add covering indexes where beneficial.",
+            "testStrategy": ""
+          },
+          {
+            "id": 5,
+            "title": "Configure node-postgres client with connection pooling",
+            "description": "Set up PostgreSQL client using node-postgres (pg) with proper connection management for local development",
+            "status": "done",
+            "dependencies": [
+              2
+            ],
+            "details": "Install node-postgres (pg) and @types/pg packages. Create database client configuration with connection pool settings, configure environment variables for local PostgreSQL connection (DB_HOST=localhost, DB_PORT=5432, DB_NAME, DB_USER, DB_PASSWORD). Set up connection pool with proper min/max connections, idle timeout, and connection validation. Implement graceful connection handling with retry logic and proper error handling.",
+            "testStrategy": ""
+          },
+          {
+            "id": 6,
+            "title": "Implement comprehensive database connection testing",
+            "description": "Create test suite to validate database connectivity, table operations, and JSONB functionality",
+            "status": "done",
+            "dependencies": [
+              4,
+              5
+            ],
+            "details": "Develop test cases covering: database connection establishment, basic CRUD operations on frames_v2 table, JSONB column insertion with complex nested objects, JSONB query operations using operators like ->, ->>, #>, JSON path queries, index performance validation with EXPLAIN ANALYZE, transaction handling, and error scenarios (connection timeouts, constraint violations). Include sample data insertion and retrieval tests with realistic frame analysis data.",
+            "testStrategy": ""
+          }
+        ]
+      },
+      {
+        "id": 3,
+        "title": "Implement Video File Input Handler",
+        "description": "Build system to accept and validate video files in MP4, MOV, AVI formats",
+        "details": "Create VideoInputHandler class using FFmpeg to validate file formats, extract metadata (duration, resolution, fps), and verify file integrity. Support file upload via filesystem path or buffer. Implement file size validation (max 10 minutes) and format conversion if needed.",
+        "testStrategy": "Test with various video formats, verify metadata extraction accuracy, test file validation rules, and ensure proper error handling for corrupted files",
+        "priority": "high",
+        "dependencies": [
+          1
+        ],
+        "status": "done",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Setup FFmpeg Integration and Dependencies",
+            "description": "Install and configure FFmpeg with Node.js wrapper, establish connection verification",
+            "dependencies": [],
+            "details": "Install fluent-ffmpeg package, verify FFmpeg binary availability, create FFmpegService wrapper class with connection testing, and implement basic command execution with error handling",
+            "status": "done",
+            "testStrategy": ""
+          },
+          {
+            "id": 2,
+            "title": "Implement Video File Validation Logic",
+            "description": "Create validation system for video file formats, duration, and integrity checks",
+            "dependencies": [
+              "3.1"
+            ],
+            "details": "Build VideoValidator class to check file extensions (MP4, MOV, AVI), validate file headers, verify codec compatibility, implement duration limits (max 10 minutes), and add file corruption detection",
+            "status": "done",
+            "testStrategy": ""
+          },
+          {
+            "id": 3,
+            "title": "Build Metadata Extraction Implementation",
+            "description": "Extract and parse video metadata including resolution, framerate, and duration",
+            "dependencies": [
+              "3.1"
+            ],
+            "details": "Create MetadataExtractor class using FFprobe to extract video properties, parse resolution (width/height), framerate, duration, codec information, and bitrate data into structured format",
+            "status": "done",
+            "testStrategy": ""
+          },
+          {
+            "id": 4,
+            "title": "Implement Error Handling and Format Support",
+            "description": "Add comprehensive error handling and optional format conversion capabilities",
+            "dependencies": [
+              "3.2",
+              "3.3"
+            ],
+            "details": "Create VideoInputHandler class that combines validation and metadata extraction, implement proper error handling for unsupported formats, add format conversion for compatible codecs, and create user-friendly error messages with resolution suggestions",
+            "status": "done",
+            "testStrategy": ""
+          }
+        ]
+      },
+      {
+        "id": 4,
+        "title": "Build Frame Extraction Pipeline",
+        "description": "Implement efficient frame extraction system with quality pre-filtering",
+        "details": "Use FFmpeg to extract frames at optimal intervals (every 2-3 seconds). Implement frame quality pre-filtering to skip blurry, dark, or low-quality frames using OpenCV or similar. Create frame buffering system for batch processing. Store extracted frames temporarily with cleanup mechanisms.",
+        "testStrategy": "Verify frame extraction timing accuracy, test quality filtering effectiveness, measure extraction performance, and validate temporary file cleanup",
+        "priority": "high",
+        "dependencies": [
+          3
+        ],
+        "status": "done",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Setup FFmpeg Frame Extraction Interface",
+            "description": "Configure FFmpeg command-line interface and parameters for optimal frame extraction at 2-3 second intervals",
+            "dependencies": [],
+            "details": "Install and configure FFmpeg bindings, define extraction parameters (interval timing, output format, quality settings), create FrameExtractor class with FFmpeg command execution, implement error handling for FFmpeg process failures",
+            "status": "done",
+            "testStrategy": ""
+          },
+          {
+            "id": 2,
+            "title": "Implement Quality Pre-filtering Algorithm",
+            "description": "Build frame quality assessment using OpenCV to detect and filter out blurry, dark, or low-quality frames",
+            "dependencies": [
+              "4.1"
+            ],
+            "details": "Implement blur detection using Laplacian variance, brightness analysis using histogram statistics, contrast measurement using standard deviation, create QualityFilter class with configurable thresholds, add frame rejection logic based on quality metrics",
+            "status": "done",
+            "testStrategy": ""
+          },
+          {
+            "id": 3,
+            "title": "Create Frame Buffering System",
+            "description": "Develop in-memory frame buffer for batch processing and efficient frame handling",
+            "dependencies": [
+              "4.2"
+            ],
+            "details": "Create FrameBuffer class with configurable size limits, implement FIFO queue for frame processing, add memory management to prevent overflow, create batch processing methods for multiple frames, implement frame metadata tracking",
+            "status": "done",
+            "testStrategy": ""
+          },
+          {
+            "id": 4,
+            "title": "Build Temporary Storage Management",
+            "description": "Implement temporary file system for storing extracted frames with automatic cleanup",
+            "dependencies": [
+              "4.1"
+            ],
+            "details": "Create TempStorageManager class for file system operations, implement unique naming convention for temp frames, add automatic cleanup mechanisms with configurable retention, create directory structure management, implement storage space monitoring",
+            "status": "done",
+            "testStrategy": ""
+          },
+          {
+            "id": 5,
+            "title": "Optimize Batch Processing Performance",
+            "description": "Implement performance optimizations for concurrent frame extraction and processing",
+            "dependencies": [
+              "4.3",
+              "4.4"
+            ],
+            "details": "Add multi-threading support for parallel extraction, implement async processing pipeline, optimize memory usage during batch operations, add progress tracking and monitoring, create performance metrics collection",
+            "status": "done",
+            "testStrategy": ""
+          },
+          {
+            "id": 6,
+            "title": "Implement Cleanup Mechanisms",
+            "description": "Build comprehensive cleanup system for temporary files and resources",
+            "dependencies": [
+              "4.5"
+            ],
+            "details": "Create CleanupManager class with automatic file deletion, implement graceful shutdown procedures, add error recovery mechanisms, create cleanup scheduling for long-running processes, implement resource monitoring and cleanup triggers",
+            "status": "done",
+            "testStrategy": ""
+          }
+        ]
+      },
+      {
+        "id": 5,
+        "title": "Setup OpenAI GPT-4 Vision API Integration",
+        "description": "Establish connection to OpenAI API with rate limiting and error handling",
+        "details": "Configure OpenAI client with API key management. Implement rate limiting (respect API limits), retry logic with exponential backoff, and proper error handling for API failures. Create frame-to-base64 conversion for API submission. Set up cost tracking mechanisms.",
+        "testStrategy": "Test API connection, verify rate limiting works, test retry logic with simulated failures, and validate cost tracking accuracy",
+        "priority": "high",
+        "dependencies": [
+          1
+        ],
+        "status": "done",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Configure OpenAI API Client",
+            "description": "Set up OpenAI client with secure API key management and initialization",
+            "dependencies": [],
+            "details": "Install and configure OpenAI SDK with proper API key handling from environment variables. Create OpenAIClient class with connection validation and proper error handling for authentication failures.",
+            "status": "done",
+            "testStrategy": ""
+          },
+          {
+            "id": 2,
+            "title": "Implement Rate Limiting System",
+            "description": "Build rate limiter to respect OpenAI API limits and prevent quota exhaustion",
+            "dependencies": [
+              "5.1"
+            ],
+            "details": "Implement token bucket or sliding window rate limiter respecting OpenAI's requests per minute and tokens per minute limits. Include queue system for handling burst requests and proper backpressure mechanisms.",
+            "status": "done",
+            "testStrategy": ""
+          },
+          {
+            "id": 3,
+            "title": "Develop Retry Logic with Exponential Backoff",
+            "description": "Create robust retry mechanism for handling API failures and temporary issues",
+            "dependencies": [
+              "5.2"
+            ],
+            "details": "Implement exponential backoff retry logic for transient errors (500, 502, 503, 504). Configure maximum retry attempts, jitter to prevent thundering herd, and proper error classification for retryable vs non-retryable errors.",
+            "status": "done",
+            "testStrategy": ""
+          },
+          {
+            "id": 4,
+            "title": "Build Image Encoding Utilities",
+            "description": "Create utilities for converting video frames to base64 format for API submission",
+            "dependencies": [],
+            "details": "Implement frame-to-base64 conversion with proper image format handling (JPEG/PNG). Add image compression and resize utilities to optimize API payload size while maintaining quality for analysis.",
+            "status": "done",
+            "testStrategy": ""
+          },
+          {
+            "id": 5,
+            "title": "Implement Cost Tracking System",
+            "description": "Build comprehensive cost monitoring and tracking for API usage",
+            "dependencies": [
+              "5.1",
+              "5.2",
+              "5.3"
+            ],
+            "details": "Create cost calculator based on input/output tokens and image analysis requests. Implement usage tracking with daily/monthly budget alerts. Store cost metrics for reporting and optimization analysis.",
+            "status": "done",
+            "testStrategy": ""
+          }
+        ]
+      },
+      {
+        "id": 6,
+        "title": "Create Frame Analysis Data Schema",
+        "description": "Define TypeScript interfaces and JSON schemas for frame analysis results",
+        "details": "Create TypeScript interfaces for CompositionAnalysis (rule_of_thirds_score, leading_lines, visual_balance), QualityMetrics (sharpness, exposure, color_saturation), VisualElements (subjects, environment, objects), and EngagementFactors. Define JSON schemas for validation.",
+        "testStrategy": "Validate schema definitions against sample data, test TypeScript type checking, and verify JSON schema validation works correctly",
+        "priority": "medium",
+        "dependencies": [
+          2
+        ],
+        "status": "done",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Define Core TypeScript Interfaces",
+            "description": "Create TypeScript interface definitions for CompositionAnalysis, QualityMetrics, VisualElements, and EngagementFactors",
+            "dependencies": [],
+            "details": "Define interfaces for CompositionAnalysis (rule_of_thirds_score, leading_lines, visual_balance), QualityMetrics (sharpness, exposure, color_saturation), VisualElements (subjects, environment, objects), and EngagementFactors with proper typing and optional fields",
+            "status": "done",
+            "testStrategy": ""
+          },
+          {
+            "id": 2,
+            "title": "Create JSON Schema Definitions",
+            "description": "Generate JSON schemas for all frame analysis data structures to enable validation",
+            "dependencies": [
+              "6.1"
+            ],
+            "details": "Create corresponding JSON schemas for each TypeScript interface with proper constraints, required fields, and data type validation rules. Include min/max values for numeric scores and string patterns for identifiers",
+            "status": "done",
+            "testStrategy": ""
+          },
+          {
+            "id": 3,
+            "title": "Implement Schema Validation Logic",
+            "description": "Build validation utilities that use JSON schemas to validate frame analysis data",
+            "dependencies": [
+              "6.2"
+            ],
+            "details": "Create SchemaValidator class with methods to validate frame analysis objects against JSON schemas. Include detailed error reporting, type coercion where appropriate, and performance optimization for bulk validation operations",
+            "status": "done",
+            "testStrategy": ""
+          },
+          {
+            "id": 4,
+            "title": "Create Schema Testing Utilities",
+            "description": "Develop comprehensive test utilities and sample data for schema validation",
+            "dependencies": [
+              "6.3"
+            ],
+            "details": "Build test utilities that generate valid and invalid sample data, test TypeScript type checking compilation, verify JSON schema validation accuracy, and benchmark validation performance with various data sizes",
+            "status": "done",
+            "testStrategy": ""
+          }
+        ]
+      },
+      {
+        "id": 7,
+        "title": "Implement Composition Scoring System",
+        "description": "Build algorithm to analyze frame composition using rule of thirds and visual balance",
+        "details": "Create CompositionAnalyzer class that detects rule of thirds grid placement, identifies leading lines using edge detection, measures visual balance through weight distribution analysis. Generate numerical scores (0-100) for each metric and overall composition score.",
+        "testStrategy": "Test with frames of known good/poor composition, validate scoring consistency, and compare results against manual composition assessments",
+        "priority": "medium",
+        "dependencies": [
+          6
+        ],
+        "status": "done",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Implement Rule of Thirds Detection Algorithm",
+            "description": "Create algorithm to detect subject placement on rule of thirds grid points and intersections",
+            "dependencies": [],
+            "details": "Implement grid overlay system that divides frame into 9 sections using rule of thirds lines. Use object detection or edge detection to identify main subjects and calculate their proximity to grid intersections and lines. Score based on how well subjects align with rule of thirds principles (0-100 scale).",
+            "status": "done",
+            "testStrategy": ""
+          },
+          {
+            "id": 2,
+            "title": "Develop Leading Lines Identification Using Edge Detection",
+            "description": "Build system to detect and analyze leading lines in frame composition using computer vision",
+            "dependencies": [],
+            "details": "Implement Canny edge detection and Hough line transform to identify prominent lines in the frame. Analyze line direction, convergence points, and how they guide the viewer's eye toward main subjects. Calculate leading lines effectiveness score based on line strength and composition impact.",
+            "status": "done",
+            "testStrategy": ""
+          },
+          {
+            "id": 3,
+            "title": "Create Visual Balance Analysis System",
+            "description": "Implement algorithm to measure visual weight distribution and balance across the frame",
+            "dependencies": [],
+            "details": "Develop system to calculate visual weight based on color intensity, contrast, size, and position of elements. Analyze horizontal and vertical balance by comparing weight distribution across frame quadrants. Generate balance scores considering symmetrical vs asymmetrical compositions.",
+            "status": "done",
+            "testStrategy": ""
+          },
+          {
+            "id": 4,
+            "title": "Build Scoring Calculation System",
+            "description": "Create unified scoring system that combines individual composition metrics into overall score",
+            "dependencies": [
+              "7.1",
+              "7.2",
+              "7.3"
+            ],
+            "details": "Implement weighted scoring algorithm that combines rule of thirds, leading lines, and visual balance scores. Define weighting factors for each metric based on composition theory. Generate final composition score (0-100) with breakdown of individual metric contributions.",
+            "status": "done",
+            "testStrategy": ""
+          },
+          {
+            "id": 5,
+            "title": "Implement Composition Metrics Aggregation",
+            "description": "Create system to aggregate and format all composition analysis results for storage",
+            "dependencies": [
+              "7.4"
+            ],
+            "details": "Build CompositionAnalyzer class that orchestrates all composition analysis components. Format results into structured JSON matching the composition_analysis schema. Include individual metric scores, overall composition score, and detailed analysis breakdown for database storage.",
+            "status": "done",
+            "testStrategy": ""
+          }
+        ]
+      },
+      {
+        "id": 8,
+        "title": "Build Technical Quality Assessment Module",
+        "description": "Implement algorithms for sharpness, exposure, and color saturation analysis",
+        "details": "Create QualityAnalyzer using image processing algorithms: Laplacian variance for sharpness detection, histogram analysis for exposure assessment, and HSV color space analysis for saturation measurement. Generate quality scores and identify technical issues (overexposed, underexposed, motion blur).",
+        "testStrategy": "Test with frames of varying technical quality, validate score accuracy against known quality standards, and verify edge case handling",
+        "priority": "medium",
+        "dependencies": [
+          6
+        ],
+        "status": "pending",
+        "subtasks": []
+      },
+      {
+        "id": 9,
+        "title": "Develop Scene Type Classification System",
+        "description": "Create classifier for scene types: establishing, action, close-up, transition",
+        "details": "Build SceneClassifier using computer vision techniques to identify shot types based on subject size, motion detection, depth of field analysis, and visual complexity. Use machine learning or rule-based approach to classify into predefined scene types.",
+        "testStrategy": "Test classification accuracy with manually labeled dataset, measure performance across different video genres, and validate consistency",
+        "priority": "medium",
+        "dependencies": [
+          6
+        ],
+        "status": "pending",
+        "subtasks": []
+      },
+      {
+        "id": 10,
+        "title": "Create AI-Powered Frame Description Generator",
+        "description": "Implement GPT-4 Vision integration for detailed frame analysis and description",
+        "details": "Create FrameDescriptionGenerator that sends frames to GPT-4 Vision API with structured prompts requesting composition analysis, subject identification, environment description, and narrative potential assessment. Parse and validate API responses into structured data format.",
+        "testStrategy": "Test description quality and consistency, validate structured data parsing, measure API response times, and verify cost efficiency",
+        "priority": "high",
+        "dependencies": [
+          5,
+          6
+        ],
+        "status": "done",
+        "subtasks": []
+      },
+      {
+        "id": 11,
+        "title": "Build Engagement Score Calculator",
+        "description": "Implement multi-factor engagement scoring based on visual elements and composition",
+        "details": "Create EngagementCalculator that combines composition scores, technical quality, scene type, visual complexity, and subject presence into weighted engagement score (0-100). Implement configurable weighting system for different content types.",
+        "testStrategy": "Test scoring algorithm with diverse frame types, validate score distribution, and compare against human engagement assessments",
+        "priority": "medium",
+        "dependencies": [
+          7,
+          8,
+          9
+        ],
+        "status": "pending",
+        "subtasks": []
+      },
+      {
+        "id": 12,
+        "title": "Implement Batch Processing System",
+        "description": "Create efficient pipeline for processing multiple frames with progress tracking",
+        "details": "Build BatchProcessor that orchestrates frame extraction, AI analysis, composition scoring, and database storage. Implement parallel processing with worker threads, progress tracking, resumable processing for large videos, and memory management to prevent OOM errors.",
+        "testStrategy": "Test batch processing performance, verify parallel processing efficiency, test resume functionality, and validate memory usage patterns",
+        "priority": "high",
+        "dependencies": [
+          4,
+          10
+        ],
+        "status": "done",
+        "subtasks": []
+      },
+      {
+        "id": 13,
+        "title": "Setup Redis Caching Layer",
+        "description": "Implement caching system for repeated analyses and API responses",
+        "details": "Configure Redis client for caching frame analysis results, API responses, and intermediate processing results. Implement cache key strategies, TTL management, and cache invalidation logic. Create cache-aware wrapper functions for expensive operations.",
+        "testStrategy": "Test cache hit/miss scenarios, verify cache invalidation works correctly, measure performance improvement, and test Redis connection handling",
+        "priority": "medium",
+        "dependencies": [
+          1
+        ],
+        "status": "pending",
+        "subtasks": []
+      },
+      {
+        "id": 14,
+        "title": "Create Data Storage and Retrieval System",
+        "description": "Implement efficient database operations for frame analysis results",
+        "details": "Create DataStore class with methods for inserting frame analysis results, querying frames by video_id and timestamp ranges, aggregating analysis data, and optimizing database queries. Implement connection pooling and transaction management for bulk operations.",
+        "testStrategy": "Test database operations performance, verify data integrity, test query optimization with large datasets, and validate transaction handling",
+        "priority": "high",
+        "dependencies": [
+          2,
+          11
+        ],
+        "status": "pending",
+        "subtasks": []
+      },
+      {
+        "id": 15,
+        "title": "Build Testing Framework and Performance Benchmarks",
+        "description": "Create comprehensive test suite and performance monitoring system",
+        "details": "Implement unit tests for all analysis components, integration tests for full pipeline, performance benchmarks measuring processing speed and accuracy. Create test dataset with diverse video types, establish accuracy baselines against manual annotations, and implement continuous performance monitoring.",
+        "testStrategy": "Achieve 95%+ test coverage, validate benchmark results against requirements (3 minutes for 5-minute video), and establish automated testing pipeline",
+        "priority": "medium",
+        "dependencies": [
+          12,
+          14
+        ],
+        "status": "pending",
+        "subtasks": []
+      }
+    ],
+    "metadata": {
+      "created": "2025-08-08T07:55:16.281Z",
+      "updated": "2025-08-08T13:28:10.068Z",
+      "description": "Layer 1: Enhanced Frame Analysis implementation"
+    }
+  }
+}

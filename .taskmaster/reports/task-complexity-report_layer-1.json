@@ -1,0 +1,133 @@
+{
+	"meta": {
+		"generatedAt": "2025-08-08T07:57:56.956Z",
+		"tasksAnalyzed": 15,
+		"totalTasks": 15,
+		"analysisCount": 15,
+		"thresholdScore": 4,
+		"projectName": "Taskmaster",
+		"usedResearch": true
+	},
+	"complexityAnalysis": [
+		{
+			"taskId": 1,
+			"taskTitle": "Setup Project Repository and Core Dependencies",
+			"complexityScore": 4,
+			"recommendedSubtasks": 6,
+			"expansionPrompt": "Break down project initialization into package.json creation, TypeScript configuration, development tooling setup, dependency installation, environment configuration, and initial project structure creation",
+			"reasoning": "Standard project setup with multiple tooling configurations requiring careful dependency management and configuration alignment"
+		},
+		{
+			"taskId": 2,
+			"taskTitle": "Design Database Schema and Setup Supabase",
+			"complexityScore": 6,
+			"recommendedSubtasks": 5,
+			"expansionPrompt": "Separate database schema design, table creation with JSONB columns, index optimization, Supabase client configuration, and connection testing into distinct implementation phases",
+			"reasoning": "Complex database design with JSONB schema and performance considerations requiring careful planning and testing"
+		},
+		{
+			"taskId": 3,
+			"taskTitle": "Implement Video File Input Handler",
+			"complexityScore": 5,
+			"recommendedSubtasks": 4,
+			"expansionPrompt": "Split into FFmpeg integration setup, video validation logic, metadata extraction implementation, and error handling with file format support",
+			"reasoning": "Moderate complexity involving external tool integration and comprehensive validation logic across multiple video formats"
+		},
+		{
+			"taskId": 4,
+			"taskTitle": "Build Frame Extraction Pipeline",
+			"complexityScore": 7,
+			"recommendedSubtasks": 6,
+			"expansionPrompt": "Divide into FFmpeg frame extraction setup, quality pre-filtering algorithm implementation, frame buffering system, temporary storage management, batch processing optimization, and cleanup mechanisms",
+			"reasoning": "High complexity requiring computer vision algorithms, performance optimization, and efficient resource management"
+		},
+		{
+			"taskId": 5,
+			"taskTitle": "Setup OpenAI GPT-4 Vision API Integration",
+			"complexityScore": 5,
+			"recommendedSubtasks": 5,
+			"expansionPrompt": "Break into API client configuration, rate limiting implementation, retry logic with exponential backoff, image encoding utilities, and cost tracking system",
+			"reasoning": "Moderate complexity with critical rate limiting and error handling requirements for external API integration"
+		},
+		{
+			"taskId": 6,
+			"taskTitle": "Create Frame Analysis Data Schema",
+			"complexityScore": 3,
+			"recommendedSubtasks": 4,
+			"expansionPrompt": "Separate into TypeScript interface definitions, JSON schema creation, validation logic implementation, and schema testing utilities",
+			"reasoning": "Lower complexity focused on data structure definition with validation requirements"
+		},
+		{
+			"taskId": 7,
+			"taskTitle": "Implement Composition Scoring System",
+			"complexityScore": 8,
+			"recommendedSubtasks": 5,
+			"expansionPrompt": "Split into rule of thirds detection algorithm, leading lines identification using edge detection, visual balance analysis, scoring calculation system, and composition metrics aggregation",
+			"reasoning": "High complexity requiring advanced computer vision algorithms and mathematical scoring systems"
+		},
+		{
+			"taskId": 8,
+			"taskTitle": "Build Technical Quality Assessment Module",
+			"complexityScore": 7,
+			"recommendedSubtasks": 4,
+			"expansionPrompt": "Divide into sharpness detection using Laplacian variance, exposure analysis via histogram processing, color saturation measurement in HSV space, and quality scoring aggregation",
+			"reasoning": "High complexity involving multiple image processing algorithms and technical quality metrics"
+		},
+		{
+			"taskId": 9,
+			"taskTitle": "Develop Scene Type Classification System",
+			"complexityScore": 8,
+			"recommendedSubtasks": 5,
+			"expansionPrompt": "Break into feature extraction for scene analysis, motion detection implementation, depth of field calculation, visual complexity assessment, and classification algorithm with training data integration",
+			"reasoning": "High complexity requiring machine learning or sophisticated rule-based classification with multiple visual analysis components"
+		},
+		{
+			"taskId": 10,
+			"taskTitle": "Create AI-Powered Frame Description Generator",
+			"complexityScore": 6,
+			"recommendedSubtasks": 4,
+			"expansionPrompt": "Split into structured prompt engineering for GPT-4 Vision, API request handling with image encoding, response parsing and validation, and structured data extraction from AI descriptions",
+			"reasoning": "Moderate-high complexity requiring careful prompt engineering and robust response parsing for AI integration"
+		},
+		{
+			"taskId": 11,
+			"taskTitle": "Build Engagement Score Calculator",
+			"complexityScore": 6,
+			"recommendedSubtasks": 4,
+			"expansionPrompt": "Divide into scoring algorithm design, weight configuration system, multi-factor score aggregation, and content-type specific scoring adaptation",
+			"reasoning": "Moderate-high complexity requiring algorithm design and configurable weighting systems with multiple input factors"
+		},
+		{
+			"taskId": 12,
+			"taskTitle": "Implement Batch Processing System",
+			"complexityScore": 9,
+			"recommendedSubtasks": 7,
+			"expansionPrompt": "Break into worker thread architecture, pipeline orchestration, progress tracking system, resumable processing logic, memory management optimization, parallel processing coordination, and error recovery mechanisms",
+			"reasoning": "Very high complexity requiring advanced concurrency management, resource optimization, and fault tolerance in distributed processing"
+		},
+		{
+			"taskId": 13,
+			"taskTitle": "Setup Redis Caching Layer",
+			"complexityScore": 4,
+			"recommendedSubtasks": 4,
+			"expansionPrompt": "Split into Redis client configuration, cache key strategy implementation, TTL management system, and cache invalidation logic with wrapper functions",
+			"reasoning": "Moderate complexity involving caching strategy design and integration with existing components"
+		},
+		{
+			"taskId": 14,
+			"taskTitle": "Create Data Storage and Retrieval System",
+			"complexityScore": 6,
+			"recommendedSubtasks": 5,
+			"expansionPrompt": "Divide into database connection management, CRUD operations implementation, query optimization for large datasets, transaction management for bulk operations, and data aggregation utilities",
+			"reasoning": "Moderate-high complexity requiring database optimization and efficient data handling for large-scale operations"
+		},
+		{
+			"taskId": 15,
+			"taskTitle": "Build Testing Framework and Performance Benchmarks",
+			"complexityScore": 7,
+			"recommendedSubtasks": 6,
+			"expansionPrompt": "Break into unit test suite creation, integration test implementation, performance benchmark development, test data preparation, accuracy validation against manual annotations, and continuous monitoring setup",
+			"reasoning": "High complexity requiring comprehensive test coverage, performance measurement, and validation systems across the entire application"
+		}
+	]
+}

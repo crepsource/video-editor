@@ -1,0 +1,21 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(task-master add-tag:*)",
+      "Bash(task-master:*)",
+      "Bash(docker-compose:*)",
+      "Bash(docker logs:*)",
+      "Bash(docker exec:*)",
+      "Bash(docker cp:*)",
+      "Bash(npm install:*)",
+      "Bash(npx ts-node-dev:*)",
+      "Bash(node:*)",
+      "Bash(timeout:*)",
+      "Bash(docker volume rm:*)",
+      "Bash(npm run test:cache:*)",
+      "Bash(npm run test:storage:*)",
+      "Bash(git add:*)"
+    ],
+    "deny": []
+  }
+}
