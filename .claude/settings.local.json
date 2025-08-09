@@ -14,7 +14,8 @@
       "Bash(docker volume rm:*)",
       "Bash(npm run test:cache:*)",
       "Bash(npm run test:storage:*)",
-      "Bash(git add:*)"
+      "Bash(git add:*)",
+      "Bash(git remote add:*)"
     ],
     "deny": []
   }
